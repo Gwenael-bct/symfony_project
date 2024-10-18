@@ -3,3 +3,21 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+
+lucky_number:
+    path: /lucky/number
+    controller: App\Controller\test::number
+
+
+Homepage:
+    path: /HomeController
+    controller: App\Controller\HomeController::index
+
+Movie:
+    path: /MovieController
+    controller: App\Controller\MovieController::index
+
+add_movie:
+    path: /movie/add
+    controller: App\Controller\MovieController::new

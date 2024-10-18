@@ -1,0 +1,19 @@
+{% include 'template.html.twig' %}
+<h1>Your lucky number is {{ number }}</h1>
+
+{% if page %}
+    <p>Current page: {{ page }}</p>
+{% else %}
+    <p>No page specified.</p>
+{% endif %}
+
+<p>{{ data }}</p>
+
+<p>{{ oui }}</p>
+
+{% if ga_tracking %}
+    Request method: {{ ga_tracking }}
+
+{% endif %}
+
+

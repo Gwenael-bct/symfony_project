@@ -1,0 +1,17 @@
+{% include 'template.html.twig' %}
+
+<html>
+<div class="container mt-4">
+    <h1>Movies</h1>
+    <ul class="list-group">
+        {% for movie in result %}
+            <li class="list-group-item">{{ movie.name }} - {{ movie.annee }} - {{ movie.duration }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ path('add_movie') }}">
+        <button>Add movie</button>
+    </a>
+
+</div>
+</body>
+</html>

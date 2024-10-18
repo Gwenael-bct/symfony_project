@@ -1,5 +1,10 @@
 twig:
     file_name_pattern: '*.twig'
+    globals:
+        ga_tracking: 'UA-xxxxx-x'
+    form_themes: ['bootstrap_5_layout.html.twig']
+
+
 
 when@test:
     twig:
