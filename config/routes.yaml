@@ -15,9 +15,29 @@ Homepage:
     controller: App\Controller\HomeController::index
 
 Movie:
-    path: /MovieController
+    path: /Movie
     controller: App\Controller\MovieController::index
 
 add_movie:
     path: /movie/add
     controller: App\Controller\MovieController::new
+
+delete_movie:
+    path: /movie/delete
+    controller: App\Controller\MovieController::deleteMovie
+
+UserMe:
+    path: /user
+    controller: App\Controller\UserController::index
+
+UserInscription:
+    path: /user/inscription
+    controller: App\Controller\UserController::inscription
+
+Login:
+    path: /login
+    controller: App\Controller\AppAuthenticatorController::login
+
+Register:
+    path: /register
+    controller: App\Controller\RegistrationController::register

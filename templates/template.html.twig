@@ -5,9 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Movie</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Prend toute la hauteur de la fenêtre */
+            padding-top: 125px; /* Hauteur de la navbar pour éviter que le contenu soit caché */
+            padding-bottom: 125px; /* Hauteur de la navbar pour éviter que le contenu soit caché */
+
+        }
+        footer {
+            margin-top: auto; /* Pousse le footer en bas de la page */
+        }
+        .content {
+            flex: 1; /* Permet au contenu principal d'occuper tout l'espace disponible */
+            padding-bottom: 20px; /* Ajoute un espace sous le contenu */
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <a class="navbar-brand" href="#">Mon Site</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,9 +40,42 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('Movie') }}">Go to movie</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('Register') }}">Register</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                {% if app.user %}
+                    <a style="font-size: x-large" class="nav-link"><strong>Bienvenue {{ app.user.username }}</strong></a>
+                    <a href="{{ path('app_logout') }}"><center>Logout</center></a>
+                {% else %}
+                    <a style="font-size: x-large" class="nav-link"><strong>Connecté en tant qu'invité</strong></a>
+                    <a href="{{ path('Login') }}"><center>Login</center></a>
+                {% endif %}
+            </li>
         </ul>
     </div>
 </nav>
+
+</body>
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+        <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+            <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+        <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
+        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
+        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
+    </ul>
+</footer>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>

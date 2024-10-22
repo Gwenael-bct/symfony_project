@@ -1,17 +1,15 @@
 {% include 'template.html.twig' %}
 
-{% if start_form %}
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-        {{ form_widget(form) }}
-    {{ form_end(form) }}
-{% endif %}
+{{ form_start(form_connect, {'attr': {'novalidate': 'novalidate'}}) }}
+{{ form_widget(form_connect) }}
+{{ form_end(form_connect) }}
 
 {% if app.session.flashBag.has('success') %}
     <div class="alert alert-success">
         {% for message in app.session.flashBag.get('success') %}
             {{ message }}
-            <a href="{{ path('Movie') }}">
-                <button>Check movies</button>
+            <a href="{{ path('UserMe') }}">
+                <button type="button" class="btn btn-outline-primary">Go to Homepage</button>
             </a>
         {% endfor %}
     </div>

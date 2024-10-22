@@ -2,6 +2,7 @@ twig:
     file_name_pattern: '*.twig'
     globals:
         ga_tracking: 'UA-xxxxx-x'
+        variables_service: '@App\Service\Variables'
     form_themes: ['bootstrap_5_layout.html.twig']
 
 
