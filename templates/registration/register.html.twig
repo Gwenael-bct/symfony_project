@@ -1,4 +1,4 @@
-{% include 'template.html.twig' %}
+{% include 'nav-bar.html.twig' %}
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
@@ -11,3 +11,4 @@
 
     {{ form(registrationForm) }}
 {% endblock %}
+{% include 'footer.html.twig' %}

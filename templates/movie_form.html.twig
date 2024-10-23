@@ -1,4 +1,4 @@
-{% include 'template.html.twig' %}
+{% include 'nav-bar.html.twig' %}
 
 {% if start_form %}
     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
@@ -23,4 +23,6 @@
             {{ message }}
         {% endfor %}
     </div>
+
 {% endif %}
+{% include 'footer.html.twig' %}

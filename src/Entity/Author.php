@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,27 +12,35 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['getAuthor', 'getitems']],
+    paginationItemsPerPage: 2
+)]
 class Author
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["getBooks"])]
+    #[Groups(["getAuthor"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["getBooks"])]
+    #[Groups(["getAuthor"])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["getBooks"])]
+    #[Groups(["getAuthor"])]
     private ?string $lastName = null;
 
     /**
      * @var Collection<int, Book>
      */
     #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'author')]
+    #[Groups(["getitems"])]
     private Collection $Books;
 
     public function __construct()

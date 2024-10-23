@@ -1,35 +1,60 @@
-{% include 'template.html.twig' %}
+{% include 'nav-bar.html.twig' %}
 
 <html>
+<style>
+    .column {
+        flex: 70%;
+        padding: 40px;
+        height: auto;
+    }
+</style>
 <div class="container mt-4">
     {% if app.flashes('danger') %}
         <div class="alert alert-danger">
             {% for message in app.flashes('danger') %}
-                <p><center>{{ dump(info) }}</center></p>
+                <p><center>{{ message }}</center></p>
             {% endfor %}
         </div>
     {% endif %}
-    <h1>Movies</h1>
-    <ul class="list-group">
-        <table>
-            {% for movie in result %}
-                <li class="list-group-item">
-                    {{ movie.name }} - {{ movie.annee }} - {{ movie.duration }}
-                        <form action="{{ path('movie_delete', {'id': movie.id}) }}" method="post">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this movie?');">Delete this movie</button>
-                        </form>
-                    <button class="btn btn-primary">Edit this movie</button>
-                </li>
-            {% endfor %}
-        </table>
-    </ul>
-    <a href="{{ path('add_movie') }}">
-        <center>
-            <button type="button" class="btn btn-outline-primary">Add movie</button>
 
-        </center>
-    </a>
+    <h1 class="text-center"><strong>Movies</strong></h1>
+    <div class="row">
+        <div class="column">
+            <ul class="list-group">
+                {% for movie in result %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ movie.name }} - {{ movie.annee }} - {{ movie.duration }}
+                        <div>
+                            <form action="{{ path('movie_delete', {'id': movie.id}) }}" method="post" style="display:inline;">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this movie?');">Delete</button>
+                            </form>
+                            <button class="btn btn-primary btn-sm">Edit</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="column">
+            <!-- Autres informations ou fonctionnalités peuvent être ajoutées ici -->
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-3">
+        {% if page > 1 %}
+            <a href="{{ path('Movie', {page: page - 1}) }}" class="btn btn-secondary">Page précédente</a>
+        {% endif %}
+        {% if page < maxPage %}
+            <a href="{{ path('Movie', {page: page + 1}) }}" class="btn btn-secondary">Page suivante</a>
+        {% endif %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ path('add_movie') }}">
+            <button type="button" class="btn btn-outline-primary">Add movie</button>
+        </a>
+    </div>
 </div>
-</body>
+
+{% include 'footer.html.twig' %}
 </html>

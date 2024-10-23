@@ -9,7 +9,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['getAuthor', 'getparent']],
+)]
 class Book
 {
     #[ORM\Id]
@@ -27,7 +29,7 @@ class Book
     private ?string $coverText = null;
 
     #[ORM\ManyToOne(inversedBy: 'Books')]
-    #[Groups(["getAuthor"])]
+    #[Groups(["getparent"])]
     private ?Author $author = null;
 
     public function getId(): ?int

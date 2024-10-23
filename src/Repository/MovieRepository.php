@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Movie>
@@ -15,6 +17,30 @@ class MovieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Movie::class);
     }
+
+    public function pagination(int $page, int $limit): Paginator
+    {
+        return new Paginator($this
+            ->createQueryBuilder('m')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->setHint(Paginator::HINT_ENABLE_DISTINCT, false),
+        false
+        );
+    }
+    public function pagination2(Request $request): Paginator
+    {
+        return new Paginator($this
+            ->createQueryBuilder('m')
+            ->setFirstResult(6)
+            ->setMaxResults(5)
+            ->getQuery()
+            ->setHint(Paginator::HINT_ENABLE_DISTINCT, false),
+            false
+        );
+    }
+
 
     //    /**
     //     * @return Movie[] Returns an array of Movie objects

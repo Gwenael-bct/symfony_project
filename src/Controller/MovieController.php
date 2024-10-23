@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\MovieType;
 use App\Entity\Movie;
 use App\Repository\MovieRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,20 +22,26 @@ class MovieController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
+
     public function index(Request $request, MovieRepository $repository): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = 5;
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $result = $repository->findAll();
+        $result = $repository->pagination($page, $limit);
+        $maxPage = ceil($result->count() / $limit);
         return $this->render('movie.html.twig',
         [
             'result' => $result,
+            'maxPage' => $maxPage,
+            'page' => $page,
         ]);
     }
 
     public function new(Request $request): Response
     {
         try {
-            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+            $this->denyAccessUnlessGranted('ROLE_USER');
         } catch (\Exception $e) {
             $this->addFlash('danger', 'Pas les autorisations requises ' . $e->getMessage());
             return $this->redirectToRoute('Movie');

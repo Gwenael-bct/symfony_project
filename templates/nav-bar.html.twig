@@ -14,13 +14,6 @@
             padding-bottom: 125px; /* Hauteur de la navbar pour éviter que le contenu soit caché */
 
         }
-        footer {
-            margin-top: auto; /* Pousse le footer en bas de la page */
-        }
-        .content {
-            flex: 1; /* Permet au contenu principal d'occuper tout l'espace disponible */
-            padding-bottom: 20px; /* Ajoute un espace sous le contenu */
-        }
     </style>
 </head>
 <body>
@@ -33,9 +26,6 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('Homepage') }}">Go to Homepage</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('lucky_number') }}">Go to Number</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('Movie') }}">Go to movie</a>
@@ -57,23 +47,7 @@
         </ul>
     </div>
 </nav>
-
 </body>
-<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-    <div class="col-md-4 d-flex align-items-center">
-        <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-            <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-        </a>
-        <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
-    </div>
-
-    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-    </ul>
-</footer>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
