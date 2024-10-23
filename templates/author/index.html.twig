@@ -1,20 +1,58 @@
-{% extends 'base.html.twig' %}
+{% include 'nav-bar.html.twig' %}
 
-{% block title %}Hello AuthorController!{% endblock %}
-
-{% block body %}
+<html>
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .column {
+        flex: 70%;
+        padding: 40px;
+        height: auto;
+    }
 </style>
+<div class="container mt-4">
+    {% if app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {% for message in app.flashes('danger') %}
+                <p><center>{{ message }}</center></p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1 class="text-center"><strong>Authors</strong></h1>
+    <div class="row">
+        <div class="column">
+            <ul class="list-group">
+                {% for author in result %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>{{ author.firstName }} {{ author.lastName }} </strong>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/gbauchet@ferron.fr/PhpstormProjects/project_symphony/my_project/src/Controller/AuthorController.php</code></li>
-        <li>Your template at <code>/home/gbauchet@ferron.fr/PhpstormProjects/project_symphony/my_project/templates/author/index.html.twig</code></li>
-    </ul>
+                        {% for books in author.Books %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ books.title }}
+                                <a href="{{ path('Books_info', {id: books.id}) }}">
+                                    <button type="button" class="btn btn-outline-primary">More Informations</button>
+                                </a>
+                            </li>
+                        {% endfor %}
+
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="column">
+            <!-- Autres informations ou fonctionnalités peuvent être ajoutées ici -->
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-3">
+        {% if page > 1 %}
+            <a href="{{ path('Authors', {page: page - 1}) }}" class="btn btn-secondary">Page précédente</a>
+        {% endif %}
+        {% if page < maxPage %}
+            <a href="{{ path('Authors', {page: page + 1}) }}" class="btn btn-secondary">Page suivante</a>
+        {% endif %}
+    </div>
+
 </div>
-{% endblock %}
+
+{% include 'footer.html.twig' %}
+</html>

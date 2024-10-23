@@ -4,6 +4,14 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+Authors:
+    path: /authors
+    controller: App\Controller\AuthorController::index
+
+Books:
+    path: /books
+    controller: App\Controller\BookController::index
+
 Homepage:
     path: /HomeController
     controller: App\Controller\HomeController::index

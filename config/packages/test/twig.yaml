@@ -1,0 +1,7 @@
+# config/packages/test/twig.yaml
+twig:
+  strict_variables: true
+
+  globals:
+    ga_tracking: 'UA-xxxxx-x'
+    variables_service: '@App\Service\Variables'

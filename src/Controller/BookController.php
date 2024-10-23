@@ -12,17 +12,29 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class BookController extends AbstractController
-{
-    #[Route('/api/books/{id}', name: 'deleteBook', methods: ['DELETE'])]
-    public function deleteBook(Book $book, EntityManagerInterface $em): JsonResponse
-    {
-        $em->remove($book);
-        $em->flush();
+class BookController extends AbstractController{
 
-        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager) // Inject EntityManager
+    {
+        $this->entityManager = $entityManager;
+    }
+    public function index(Request $request, BookRepository $repository): Response
+    {
+        $page = $request->query->getInt('page', 1);
+        $limit = 5;
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $result = $repository->pagination($page, $limit);
+        $maxPage = ceil($result->count() / $limit);
+        return $this->render('/book/index.html.twig',
+            [
+                'result' => $result,
+                'maxPage' => $maxPage,
+                'page' => $page,
+            ]);
     }
 }
