@@ -12,8 +12,20 @@ Books:
     path: /books
     controller: App\Controller\BookController::index
 
+BooksTake:
+    path: /books/{id}/take
+    methods: ['PATCH']
+    defaults:
+        _controller: App\Controller\BookController::TakeBook
+
+BooksDepose:
+    path: /books/{id}/depose
+    methods: ['PATCH']
+    defaults:
+        _controller: App\Controller\BookController::DepositBook
+
 Homepage:
-    path: /HomeController
+    path: /homepage
     controller: App\Controller\HomeController::index
 
 Movie:

@@ -3,14 +3,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Author;
 use App\Repository\AuthorRepository;
-use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Attribute\Route;
 
 class AuthorController extends AbstractController
 {
@@ -35,14 +32,4 @@ class AuthorController extends AbstractController
             ]);
     }
 
-    #[Route('/books/{id}', name: 'Books_info')]
-    public function info_books(int $id, Request $request, BookRepository $repository): Response
-    {
-        $result = $repository->findOneBy(['id' => $id]);
-        return $this->render('/book/info.html.twig',[
-            'result' => $result,
-            'id' => $id
-        ]);
-        // ... return a JSON response with the post
-    }
 }

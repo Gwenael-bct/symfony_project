@@ -23,7 +23,10 @@
             <ul class="list-group">
                 {% for books in result %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ books.title }} - {{ books.coverText }} - {{ books.author.firstName }}
+                        {{ books.title }} de {{ books.author.firstName }} {{ books.author.lastName }}
+                        <a href="{{ path('ShowBook', {id: books.id}) }}">
+                            <button type="button" class="btn btn-outline-primary">More Informations</button>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>

@@ -3,15 +3,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Book;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -36,5 +30,55 @@ class BookController extends AbstractController{
                 'maxPage' => $maxPage,
                 'page' => $page,
             ]);
+    }
+
+    #[Route('/book/{id}', name: 'ShowBook')]
+    public function showbook(int $id, Request $request, BookRepository $repository): Response
+    {
+        $book = $repository->findOneBy(['id' => $id]);
+        return $this->render('/book/info.html.twig',
+            [
+                'book' => $book,
+            ]);
+
+    }
+
+    public function TakeBook(int $id, Request $request, BookRepository $repository): Response
+    {
+        $book = $repository->findOneBy(['id' => $id]);
+        if (!$book) {
+            return new Response('Book not found', Response::HTTP_NOT_FOUND);
+        }
+
+        if ($book->getStock() > 0) {
+            $book->setStock($book->getStock() - 1);
+            $this->entityManager->persist($book);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'The book is yours!');
+        }
+        return $this->redirectToRoute('ShowBook', ['id' => $id]); // Redirection en cas d'erreur
+
+        // }
+    }
+
+    public function DepositBook(int $id, Request $request, BookRepository $repository): Response
+    {
+        $book = $repository->findOneBy(['id' => $id]);
+        if (!$book) {
+            // Handle the case where the book is not found
+            return new Response('Book not found', Response::HTTP_NOT_FOUND);
+        }
+        if ($book->getStock() <= 10) {
+            $book->setStock($book->getStock() + 1);
+            $this->entityManager->persist($book);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'the book is deposited');
+        } else {
+            $this->addFlash('danger', 'The stock are filled');
+        }
+        return $this->redirectToRoute('ShowBook', ['id' => $id]); // Redirection en cas d'erreur
+
     }
 }

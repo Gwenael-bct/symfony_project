@@ -3,14 +3,22 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Patch;
+use App\Controller\BookController;
 use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['getAuthor', 'getparent']],
+    operations: [
+        new Get(
+            normalizationContext: ['groups' => ['getAuthor', 'getparent']]),
+        new GetCollection(
+            normalizationContext: ['groups' => ['getAuthor', 'getparent']]),
+    ],
 )]
 class Book
 {
@@ -27,7 +35,13 @@ class Book
     #[ORM\Column(length: 255)]
     #[Groups(["getAuthor"])]
     private ?string $coverText = null;
+    #[ORM\Column(length: 600, nullable: true)]
+    #[Groups(["getAuthor"])]
+    private ?string $Description = null;
 
+    #[ORM\Column]
+    #[Groups(["getAuthor"])]
+    private ?int $stock = null;
     #[ORM\ManyToOne(inversedBy: 'Books')]
     #[Groups(["getparent"])]
     private ?Author $author = null;
@@ -69,6 +83,30 @@ class Book
     public function setAuthor(?Author $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->Description;
+    }
+
+    public function setDescription(?string $Description): static
+    {
+        $this->Description = $Description;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): static
+    {
+        $this->stock = $stock;
 
         return $this;
     }

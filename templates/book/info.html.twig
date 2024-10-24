@@ -1,35 +1,106 @@
 {% include 'nav-bar.html.twig' %}
 <html>
 <style>
-    .column {
-        flex: 70%;
-        padding: 40px;
-        height: auto;
+    .table_component {
+        overflow: auto;
+        width: 100%;
+    }
+
+    .table_component table {
+        border: 5px solid #dededf;
+        height: 100%;
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        border-spacing: 5px;
+        text-align: center;
+    }
+
+    .table_component caption {
+        caption-side: top;
+        text-align: center;
+    }
+
+    .table_component th {
+        border: 5px solid #dededf;
+        background-color: #a0aab1;
+        color: #000000;
+        padding: 10px;
+    }
+
+    .table_component td {
+        border: 5px solid #dededf;
+        padding: 10px;
+    }
+
+    .table_component tr:nth-child(even) td {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    .table_component tr:nth-child(odd) td {
+        background-color: #ffffff;
+        color: #000000;
     }
 </style>
-<div class="container mt-4">
-    {% if app.flashes('danger') %}
-        <div class="alert alert-danger">
-            {% for message in app.flashes('danger') %}
-                <p><center>{{ message }}</center></p>
-            {% endfor %}
-        </div>
-    {% endif %}
 
-    <h1 class="text-center"><strong>Books</strong></h1>
-    <div class="row">
-        <div class="column">
-            <ul class="list-group">
-                {% for books in result %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ books.title }} - {{ books.coverText }} - {{ books.author.firstName }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="column">
-            <!-- Autres informations ou fonctionnalités peuvent être ajoutées ici -->
-        </div>
+{% if app.session.flashBag.has('success') %}
+    <div class="alert alert-success">
+        {% for message in app.session.flashBag.get('success') %}
+            <center>{{ message }}</center>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if app.session.flashBag.has('danger') %}
+    <div class="alert alert-danger">
+        {% for message in app.session.flashBag.get('danger') %}
+            {{ message }}
+        {% endfor %}
+    </div>
+
+{% endif %}
+
+<div class="table_component" role="region" tabindex="0">
+    <table>
+        <caption>
+            <p><FONT size="10pt"></strong>Book</strong></FONT></p>
+        </caption>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Stock</th>
+            <th>Cover</th>
+            <th>Author</th>
+        </tr>
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.Description }}</td>
+            <td>{{ book.stock }}</td>
+            <td>{{ book.coverText }}</td>
+            <td>{{ book.author.firstName }} {{ book.author.lastName }}</td>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="text-center mt-4">
+        {% if book.stock > 0 %}
+            <form action="{{ path('BooksTake', {id: book.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to take this book?');">
+                <input type="hidden" name="_method" value="PATCH">
+                <button type="submit">Take this Book</button>
+            </form>
+        {% else %}
+            <p>No books available.</p>
+        {% endif %}
+        {% if book.stock <= 10 %}
+            <form action="{{ path('BooksDepose', {id: book.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to depose this book?');">
+                <input type="hidden" name="_method" value="PATCH">
+                <button type="submit">Depose this Book</button>
+            </form>
+        {% else %}
+            <p>Stock are filled.</p>
+        {% endif %}
     </div>
 
 </div>
